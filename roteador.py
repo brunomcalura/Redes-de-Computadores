@@ -2,14 +2,17 @@ import socket
 import json
 from protocolo import Quadro, enviar_pela_rede_ruidosa
 
+# Definição de endereços e portas do roteador
 HOST = '127.0.0.1'
 PORT = 60000
 MEU_MAC = "AA:BB:CC:DD:EE:FF"  # MAC do Roteador
 
+# Definição de cores para logs
 COR_REDE = '\033[94m'
 COR_ERRO = '\033[91m'
 RESET = '\033[0m'
 
+# Simulando uma tabela de roteamento (VIP para IP e Porta)
 TABELA_ROTEAMENTO = {
     "CLIENTE_BRUNO": ("127.0.0.1", 50001),
     "SERVIDOR_PRIME": ("127.0.0.1", 65432)
@@ -21,6 +24,7 @@ TABELA_ARP = {
     "SERVIDOR_PRIME": "99:88:77:66:55:44"
 }
 
+# Função para iniciar o roteador
 def iniciar_roteador():
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
         s.bind((HOST, PORT))
@@ -29,24 +33,27 @@ def iniciar_roteador():
         while True:
             data, addr = s.recvfrom(2048)
             
-            # 1. CAMADA DE ENLACE: Deserializa e Checa o CRC
+            # Deserializa o quadro recebido e verifica a integridade usando o CRC32
             quadro_dict, is_valid = Quadro.deserializar(data)
             
             if not is_valid:
                 print(f"{COR_ERRO}[ENLACE] Roteador detectou corrupção (Erro de CRC)! Descartando quadro fisicamente.{RESET}")
                 continue # Descarta silenciosamente (simulando hardware)
             
-            # 2. CAMADA DE REDE: Extrai o Pacote
+            # Desencapsula o pacote da camada de rede
             pacote_dict = quadro_dict.get('data', {})
             
+            # Verifica o TTL do pacote para evitar loops infinitos
             ttl_atual = pacote_dict.get('ttl', 0)
             if ttl_atual <= 0:
                 print(f"{COR_ERRO}[REDE] Pacote descartado! TTL expirou.{RESET}")
                 continue
                 
+            # Decrementa o TTL antes de encaminhar
             pacote_dict['ttl'] = ttl_atual - 1
             destino_vip = pacote_dict.get('dst_vip')
             
+            # Verifica se o destino VIP está na tabela de roteamento
             if destino_vip in TABELA_ROTEAMENTO:
                 ip_porta_destino = TABELA_ROTEAMENTO[destino_vip]
                 mac_destino = TABELA_ARP[destino_vip]

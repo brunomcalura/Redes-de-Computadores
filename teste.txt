@@ -1,0 +1,24 @@
+No vasto oceano da rede sem fim,
+Onde pacotes se perdem no escuro,
+O UDP lança os dados assim,
+Sem garantia, sem porto seguro.
+
+O meio físico tenta barrar,
+Corrompe os bits, inverte o valor.
+Mas o CRC está lá pra checar,
+Descartando o lixo sem o menor pudor.
+
+No meio do caos, o Roteador desperta,
+Aprende os MACs com muita atenção.
+Se não sabe a rota, a porta é aberta,
+E inunda a malha em um grande clarão.
+
+Mas surge o herói, o valente Timeout,
+Que conta os segundos com sua precisão.
+Se o ACK se perde num longo blackout,
+Ele retransmite com obstinação.
+
+Fragmento a fragmento, a mensagem transita,
+Vencendo o ruído, a perda, o algoz.
+No fim da jornada, a tela palpita:
+A rede provou que o controle é de nós!

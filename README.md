@@ -42,12 +42,6 @@ O sistema segue uma abordagem **Top-Down** com encapsulamento rígido:
 * 🟣 **Magenta**: Inteligência ARP (Aprendizado de MAC) e progresso de transferência de arquivos.
 * 🟢 **Verde**: Entrega final na camada de aplicação.
 
-## Vídeo
-
-<video src="apresentacao-codigo.mp4" controls="controls" style="max-width: 100%;">
-  Seu navegador não suporta o elemento de vídeo.
-</video>
-
 ## 👤 Autores
 
 * **João Pedro de Castro**

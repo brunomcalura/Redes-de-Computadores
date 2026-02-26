@@ -1,7 +1,7 @@
 import socket
 import time
 from aplicacao import MensagemApp
-from protocolo import Segmento, Pacote, Quadro, enviar_pela_rede_ruidosa
+from protocol import Segmento, Pacote, Quadro, enviar_pela_rede_ruidosa
 
 # Definição de endereços e portas do cliente
 MEU_IP, MINHA_PORTA = '127.0.0.1', 50001

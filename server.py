@@ -1,6 +1,6 @@
 import socket
 from aplicacao import MensagemApp
-from protocolo import Segmento, Pacote, Quadro, enviar_pela_rede_ruidosa
+from protocol import Segmento, Pacote, Quadro, enviar_pela_rede_ruidosa
 
 # Definição de endereços e portas do servidor
 HOST, PORT = '127.0.0.1', 65432

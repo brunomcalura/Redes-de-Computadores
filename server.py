@@ -3,12 +3,19 @@ import base64
 from aplicacao import MensagemApp
 from protocol import Segmento, Pacote, Quadro, enviar_pela_rede_ruidosa
 
+# Definição de endereços e portas do servidor
 HOST, PORT = '127.0.0.1', 65432
+# VIP do Servidor, usado para endereçamento lógico na camada de rede
 MEU_VIP = "SERVIDOR_PRIME"
+# MAC do Servidor, usado para endereçamento físico na camada de enlace
 MEU_MAC = "99:88:77:66:55:44"
+
+# Definição de endereços do roteador para envio dos ACKs
 ROUTER_IP, ROUTER_PORT = '127.0.0.1', 60000
+# MAC do Roteador, usado para endereçamento físico na camada de enlace ao enviar ACKs de volta para o cliente via roteador
 ROUTER_MAC = "AA:BB:CC:DD:EE:FF"
 
+# Definição de cores para logs
 COR_APP = '\033[92m'
 COR_TRANSP = '\033[96m'
 COR_ERRO = '\033[91m'
@@ -16,18 +23,24 @@ COR_ARQUIVO = '\033[95m' # Magenta para os arquivos chegando
 RESET = '\033[0m'
 
 def iniciar_servidor():
+    # Número de sequência esperado para o próximo segmento
     expected_seq_num = 0
     buffer_arquivos = {} # Dicionário para armazenar fragmentos de arquivos em trânsito
 
+    # Inicia o socket UDP para receber mensagens dos clientes
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
         s.bind((HOST, PORT))
         print(f"Servidor escutando em {HOST}:{PORT} (VIP: {MEU_VIP})")
 
+        # Loop principal para receber mensagens dos clientes
         while True:
-            data, addr = s.recvfrom(2048)
+            data, addr = s.recvfrom(2048) # Fica esperando até chegar um dado
             quadro_dict, is_valid = Quadro.deserializar(data)
-            if not is_valid: continue
 
+            # Se o quadro for inválido (CRC incorreto), simula a detecção de erro pela placa de rede e descarta o quadro
+            if not is_valid: continue
+            
+            # Desencapsula o quadro para obter o pacote e o segmento
             pacote_recebido = quadro_dict.get('data', {})
             vip_origem = pacote_recebido.get('src_vip')
             segmento_recebido = pacote_recebido.get('data', {})

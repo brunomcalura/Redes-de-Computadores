@@ -1,4 +1,4 @@
-# Projeto Confiable UDP
+# Projeto Reliable UDP
 
 Este projeto consiste na implementação de uma pilha de protocolos de rede customizada, desenvolvida sobre o protocolo UDP, para desmistificar o funcionamento das camadas TCP-IP. O objetivo é garantir a entrega de mensagens em um canal de comunicação **propositalmente** instável, simulando perdas e corrupção de dados.
 
